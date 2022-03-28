@@ -1,0 +1,109 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[2]:
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import re
+import os
+from tqdm import tqdm
+
+from gensim.models import KeyedVectors
+from gensim.models import Word2Vec
+
+from ckonlpy.tag import Twitter
+
+
+# In[3]:
+
+
+twitter = Twitter()
+
+
+# In[4]:
+
+# 절대경로 설정
+path = os.getcwd()
+
+# 뉴스 데이터 불러오기
+df = pd.read_csv(path + '/data/naver_finance_news_concat.csv')
+
+# 불용어 사전 불러오기
+stw_df = pd.read_excel(path + '/data/stopword_dictionary.xlsx', usecols = [0,4])
+stw_df = stw_df[stw_df['stopword'] == 1]
+stw_lst = stw_df['word'].tolist()
+
+# 토크나이징 할 데이터 변수지정(제목 + 본문)
+data = df['제목'] + df['본문']
+data = data.dropna()
+data = data.drop_duplicates()
+data = data.reset_index(drop= True)
+
+# 토크나이징
+tokenized_data = data.map(lambda x : twitter.nouns(x))
+
+# w2v 모델 fitting
+# model = Word2Vec(sentences = tokenized_data)
+model = Word2Vec.load('word2vec.model')
+
+# 상장기업 이름 리스트 불러오기
+with open(path + "/data/stock.txt", "r") as f:
+    entre = f.read() #entre : 기업이름
+    
+entre_lst = entre.split('\n')[:-1]
+
+# 붙어서 나와야 하는 단어들 추가하는 함수
+def append_new_words(word) : # '메타버스', '트래블룰' 처럼 기업명은 아니지만 짤려서 추출되면 안되는 단어들 추가(표제어 느낌으로 생각해주셈)
+    with open(path + '/data/new_words.txt', 'r') as f:
+        new_words = f.read()
+    
+    new_words_lst = new_words.split('\n')
+    
+    if word not in new_words_lst : 
+        new_words += (word+'\n')
+        
+        with open(path + '/data/new_words.txt', 'w') as f:
+            f.write(new_words)
+        
+        with open('/Users/bokkimin/opt/anaconda3/lib/python3.8/site-packages/ckonlpy/data/twitter/noun/new_words.txt', 'w') as f : 
+            f.write(new_words)
+    else : 
+        print('This word has already been appended')
+        
+    return
+
+
+# 종목명 추출 함수
+
+stock_lst = []
+def get_stock_name(keyword_lst) : 
+        
+    for keyword in keyword_lst : 
+        if keyword in entre_lst : 
+#             print(f'{keyword}가 추천됩니다.')
+            stock_lst.append(keyword)
+            continue
+        else : 
+#             print(f'{keyword}에 추천되는 종목은?')
+#             res = []
+            words = model.wv.most_similar(keyword, topn = 100)
+            for word in words : 
+                if word[0] in entre_lst : 
+#                     print(f'{word[0]}가 추천됩니다.')
+#                     res.append((word[0], keyword))
+                    stock_lst.append(word[0])
+                    break
+
+                else : 
+                    words = model.wv.most_similar(keyword, topn = 100)
+                    continue
+                    
+    res = pd.DataFrame()
+    res['keyword'] = keyword_lst
+    res['stock'] = stock_lst
+
+
+    return res.to_csv('data/w2v_result.csv', index = False)
