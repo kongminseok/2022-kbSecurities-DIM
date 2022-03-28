@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-#import modules
+from settingDatetime import *
 
 import numpy as np
 import pandas as pd
@@ -21,8 +15,6 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-# In[2]:
-
 
 path = os.getcwd() # 절대 경로 설정
 stw_df = pd.read_excel(path + '/data/stopword_dictionary.xlsx', usecols = [0,4]) 
@@ -30,24 +22,9 @@ stw_df = stw_df[stw_df['stopword'] == 1]
 stw_lst = stw_df['word'].tolist()
 
 
-# In[3]:
-
-
-# get yesterday
-today = datetime.date.today()
-yesterday = today - datetime.timedelta(days=1)
-yesterday = str(yesterday)
-yesterday = yesterday.replace("-","")
-
-
-# In[4]:
-
-
 from ckonlpy.tag import Twitter ### Okt가 아니라 Twitter라는 이름으로 씀
 twitter = Twitter()
 
-
-# In[31]:
 
 
 def extract_10keywords() : 
@@ -122,25 +99,17 @@ def extract_10keywords() :
     drop_null_n_duplicates(title_series)
 
 
-# In[28]:
 
 
 extract_10keywords()
 
 
-# In[29]:
-
-
 word_df
 
-
-# In[30]:
 
 
 word_n_article
 
-
-# In[ ]:
 
 
 

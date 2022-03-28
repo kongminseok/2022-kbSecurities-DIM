@@ -1,49 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[8]:
-
-
+from settingDatetime import *
 from selenium import webdriver
 import time
-import datetime
-from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
 import pandas as pd 
 import warnings
 warnings.filterwarnings('ignore')
-
-
-# In[2]:
-
-
-# get yesterday
-today = datetime.date.today()
-yesterday = today - datetime.timedelta(days=1)
-yesterday = str(yesterday)
-yesterday = yesterday.replace("-","")
-
-
-# In[3]:
-
-
-# # get date
-# dates = []
-# target_date = datetime.datetime(2022,1,20) # 2022-01-20 00:00:00
-# for i in range(0,9):
-#     target = target_date + relativedelta(days=i) # datetime.timedelta(days=i)
-#     target = str(target.date()).replace("-","")
-#     dates.append(target)
-
-
-# In[4]:
-
-
-dates = [yesterday] #임의 지정
-
-
-# In[5]:
-
 
 # create empty list
 fail = []
@@ -184,21 +145,9 @@ def get_news() :
     
     return df
 
-
-# In[9]:
-
 if __name__ == '__main__' : 
-
 
     df = get_news()
 
+    df.to_csv("./data/crawling/{0}_naver_finance_news.csv".format(target), encoding = 'utf-8-sig', index=False)
 
-# In[10]:
-
-
-    df.to_csv("./data/crawling/{0}_naver_finance_news.csv".format(dates[0]), encoding = 'utf-8-sig', index=False)
-
-
-# ------
-
-# ----
