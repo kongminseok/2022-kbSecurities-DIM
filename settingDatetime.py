@@ -48,12 +48,16 @@ dates = [] # 공휴일이 끼어있을 경우 임의 지정
 if target_day=='일':
     for i in range(0,3):
         dates.append(str(yesterday_datetime - datetime.timedelta(days=i)).replace("-",""))
+    target_datetime = target_datetime - datetime.timedelta(days=2)
+    target_default = str(target_datetime)
     target = dates[len(dates)-1]+'-'+dates[0]
     target_day = ",".join(days[4:])
+
 
 elif target_day=='금' or target_day=='토':
     dates = []
     
 else:
     dates= [yesterday]
+    
     
