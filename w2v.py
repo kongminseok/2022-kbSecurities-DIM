@@ -10,10 +10,7 @@ from gensim.models import Word2Vec
 
 from ckonlpy.tag import Twitter
 
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 twitter = Twitter()
 
 # 절대경로 설정
@@ -37,13 +34,8 @@ data = data.reset_index(drop= True)
 tokenized_data = data.map(lambda x : twitter.nouns(x))
 
 # w2v 모델 fitting
-<<<<<<< Updated upstream
 # model = Word2Vec(sentences = tokenized_data) # 모델 처음부터 학습시키기
 model = Word2Vec.load('word2vec.model') # 저장된 모델 불러오기
-=======
-# model = Word2Vec(sentences = tokenized_data)
-model = Word2Vec.load('./model/word2vec.model')
->>>>>>> Stashed changes
 
 # 상장기업 이름 리스트 불러오기
 with open(path + "/data/twitter/stock.txt", "r") as f:
