@@ -26,8 +26,8 @@ twitter = Twitter()
 
 def extract_10keywords() : 
 
-    raw_df = pd.read_csv(path + f'/data/{target}_naver_finance_news.csv', encoding = 'utf-8-sig')
-#     raw_df = pd.read_csv(path + '/data/20220324_naver_finance_news.csv')
+#     raw_df = pd.read_csv(path + f'/data/{target}_naver_finance_news.csv', encoding = 'utf-8-sig') # 이게 찐
+    raw_df = pd.read_csv(path + '/data/20220324_naver_finance_news.csv') # test용
     title_series = raw_df['제목']
     
     def drop_null_n_duplicates(untokenized_texts) :  #결측치, 중복값 제거 
@@ -70,26 +70,26 @@ def extract_10keywords() :
         tokenized_texts.to_csv('./data/tokenized_texts.csv')
         word_df.to_csv('./data/word_df.csv')
 
-        return print("keywords have been extracted!")
+        print("keywords have been extracted!")
+        
+        find_text_from_word(word_df['word'], tokenized_texts, untokenized_texts)
 
+    
+    def find_text_from_word(words, tokenized_texts, untokenized_texts): # 단어가 본문에서 어떻게 쓰였는지 찾아주는 함수
 
+        global word_n_article
+
+        tmp = pd.DataFrame(columns = ['word','text'])
+        for word in words : 
+            for i in range(len(tokenized_texts)) : 
+                if word in tokenized_texts.iloc[i] : 
+                    res = {'word':word, 'text' : untokenized_texts.iloc[i], 'index' : str(i)}
+                    tmp = tmp.append(res, ignore_index = True)
+
+        word_n_article = tmp
+
+        word_n_article.to_csv('./data/keywords_n_articles.csv')
+
+        return print('articles have been extracted and saved!')
+    
     drop_null_n_duplicates(title_series)
-    
-    
-def find_text_from_word(words, tokenized_texts, untokenized_texts): # 단어가 본문에서 어떻게 쓰였는지 찾아주는 함수
-
-    global word_n_article
-
-    tmp = pd.DataFrame(columns = ['word','text'])
-    for word in words : 
-        for i in range(len(tokenized_texts)) : 
-            if word in tokenized_texts.iloc[i] : 
-                res = {'word':word, 'text' : untokenized_texts.iloc[i], 'index' : str(i)}
-                tmp = tmp.append(res, ignore_index = True)
-
-    word_n_article = tmp
-
-    word_n_article.to_csv('./data/keywords_n_articles.csv')
-    
-    return print('articles have been extracted and saved!')
-
