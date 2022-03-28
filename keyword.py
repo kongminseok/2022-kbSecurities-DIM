@@ -14,6 +14,8 @@ from konlpy.tag import Okt
 import warnings
 warnings.filterwarnings('ignore')
 
+import w2v
+
 path = os.getcwd() # 절대 경로 설정
 stw_df = pd.read_excel(path + '/data/stopword_dictionary.xlsx', usecols = [0,4]) 
 stw_df = stw_df[stw_df['stopword'] == 1]
@@ -72,7 +74,11 @@ def extract_10keywords() :
 
         print("keywords have been extracted!")
         
-        find_text_from_word(word_df['word'], tokenized_texts, untokenized_texts)
+        w2v.get_stock_name(word_df['word'])
+        
+        w2v_res = pd.read_csv('./data/w2v_result.csv')
+        
+        find_text_from_word(w2v_res['stock'], tokenized_texts, untokenized_texts)
 
     
     def find_text_from_word(words, tokenized_texts, untokenized_texts): # 단어가 본문에서 어떻게 쓰였는지 찾아주는 함수
@@ -88,7 +94,7 @@ def extract_10keywords() :
 
         word_n_article = tmp
 
-        word_n_article.to_csv('./data/keywords_n_articles.csv')
+        word_n_article.to_csv('./data/stocks_n_articles.csv')
 
         return print('articles have been extracted and saved!')
     
