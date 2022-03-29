@@ -1,3 +1,6 @@
+from settingDatetime import *
+
+from ctypes.wintypes import tagRECT
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -38,7 +41,7 @@ tokenized_data = data.map(lambda x : twitter.nouns(x))
 model = Word2Vec.load('word2vec.model') # 저장된 모델 불러오기
 
 # 상장기업 이름 리스트 불러오기
-with open(path + "/data/twitter/stock.txt", "r") as f:
+with open(path + "/data/twitter/stock.txt", "r", encoding='utf-8-sig') as f:
     entre = f.read() #entre : 기업이름
     
 entre_lst = entre.split('\n')[:-1]
@@ -64,8 +67,10 @@ def append_new_words(word) : # '메타버스', '트래블룰' 처럼 기업명�
 
 # 종목명 추출 함수
 
-stock_lst = []
-def get_stock_name(keyword_lst) : 
+#stock_lst = []
+def get_stock_name(keyword_lst, count) : 
+    
+    stock_lst = []
         
     for keyword in keyword_lst : 
         if keyword in entre_lst : 
@@ -83,9 +88,12 @@ def get_stock_name(keyword_lst) :
                     continue
                     
     res = pd.DataFrame()
-    res['keyword'] = keyword_lst
+    res['date'] = target
+    res['day'] = target_day
+    res['word'] = keyword_lst
+    res['count'] = count
     res['stock'] = stock_lst
-    res.to_csv('data/w2v_result.csv', index = False)
+    res.to_csv(f'./data/rank/{target}_rank.csv', encoding='utf-8-sig', index = False)
 
 
     return print('stock list has been extracted and saved!')

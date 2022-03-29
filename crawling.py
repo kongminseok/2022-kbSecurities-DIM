@@ -15,7 +15,7 @@ def get_news() :
     df = pd.DataFrame(columns = ['제목','시간','언론사','본문'])
     
     # driver
-    path = '/Users/bokkimin/selenium/chromedriver'
+    path = './selenium/chromedriver'
     driver = webdriver.Chrome(path)
     # driver.maximize_window() # 윈도우 창 최대화
     # driver.minimize_window() # 윈도우 창 최소화
@@ -143,11 +143,7 @@ def get_news() :
     # close driver
     driver.close()
     
-    return df
-
-if __name__ == '__main__' : 
-
-    df = get_news()
-
     df.to_csv("./data/crawling/{0}_naver_finance_news.csv".format(target), encoding = 'utf-8-sig', index=False)
+    
+    return df
 
