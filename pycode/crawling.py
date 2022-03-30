@@ -1,5 +1,7 @@
 from pycode.settingDatetime import *
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
 import time
 from tqdm import tqdm
 import pandas as pd 
@@ -16,8 +18,8 @@ def get_news() :
     df = pd.DataFrame(columns = ['제목','시간','언론사','본문'])
     
     # driver
-    path = './selenium/chromedriver'
-    driver = webdriver.Chrome(path)
+    # path = ChromeDriverManager().install()
+    driver = webdriver.Chrome(ChromeDriverManager().install())
     # driver.maximize_window() # 윈도우 창 최대화
     # driver.minimize_window() # 윈도우 창 최소화
     

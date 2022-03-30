@@ -11,7 +11,7 @@ from pycode.firebase import *
 def runStockLuck():
     get_news()
     extract_10keywords()
-    get_output('cuda:0') #인자는 'cpu' or 'cuda:0'
+    get_output('cuda:0') 'cpu' or 'cuda:0'
     get_result()
     get_answer()
     todaystock_update()
