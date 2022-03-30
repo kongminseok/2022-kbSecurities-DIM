@@ -28,10 +28,7 @@ def get_answer():
 
     answer['change'] = changelst
     answer['service'] = ''
-    
-    # user toto 정보 불러오는 코드 작성
-    answer['user'] = '-' # up, down, stay 
-    
+    answer['user'] = '-' # defualt
     
     for i in range(len(answer)):
         if answer.expect[i]==answer.change[i]:
@@ -39,5 +36,6 @@ def get_answer():
         else:
             answer.service[i]='❌'
     answer.drop_duplicates(subset=None, keep='first', inplace=True, ignore_index=False)
+   
     answer.to_csv(f'./data/final/{target}_final.csv',encoding='utf-8-sig',index=False)
     display(answer)

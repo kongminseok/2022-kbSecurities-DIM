@@ -11,14 +11,14 @@ from pycode.firebase import *
 def runStockLuck():
     get_news()
     extract_10keywords()
-    get_output('cuda:0') 'cpu' or 'cuda:0'
+    get_output('cuda:0') # 'cpu' or 'cuda:0'
     get_result()
     get_answer()
     todaystock_update()
     ranking_update()
     checked_service_update()
-    
-    
+    loadUserToto()
+       
 if __name__ == '__main__' :
     runStockLuck() #12:00am에 실행
     end = time.time()

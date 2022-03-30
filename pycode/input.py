@@ -93,7 +93,7 @@ def extract_10keywords() :
 
         word_rank_df.reset_index(inplace = True, drop = True)
         
-        word_df = word_rank_df.head(10)
+        word_df = word_rank_df
 
         #untokenized_texts.to_csv('./data/untokenized_texts.csv')
         #tokenized_texts.to_csv('./data/tokenized_texts.csv')
@@ -101,7 +101,7 @@ def extract_10keywords() :
 
         print("keywords have been extracted!")
         
-        w2v.get_stock_name(word_df['date'], word_df['day'], word_df['word'], word_df['count'])
+        w2v.get_stock_name(word_df['word'])
         
         w2v_res = pd.read_csv(f'./data/rank/{target}_rank.csv',encoding='utf-8-sig')
         
@@ -112,11 +112,23 @@ def extract_10keywords() :
 
 
         tmp = pd.DataFrame(columns = ['word','text'])
+        is_article_words = set()
+        
         for word in words : 
-            for i in range(len(tokenized_texts)) : 
-                if word in tokenized_texts.iloc[i] : 
-                    res = {'word':word, 'text' : untokenized_texts.iloc[i], 'index' : str(i)}
-                    tmp = tmp.append(res, ignore_index = True)
+            if len(is_article_words) < 10 : 
+                for i in range(len(tokenized_texts)) : 
+                    if word in tokenized_texts.iloc[i] : 
+                        res = {'word':word, 'text' : untokenized_texts.iloc[i]}
+                        is_article_words.add(word)
+                        tmp = tmp.append(res, ignore_index = True)
+            else:
+                break
+        
+        #for word in words : 
+        #    for i in range(len(tokenized_texts)) : 
+        #        if word in tokenized_texts.iloc[i] : 
+        #            res = {'word':word, 'text' : untokenized_texts.iloc[i], 'index' : str(i)}
+        #            tmp = tmp.append(res, ignore_index = True)
 
         word_n_article = tmp
 

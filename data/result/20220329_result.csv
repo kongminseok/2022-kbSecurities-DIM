@@ -1,4 +1,11 @@
 ﻿date,days,word,score,expect,recommend
+20220329,화,이마트,3,up,buy
 20220329,화,한화,2,up,buy
 20220329,화,신흥,0,stay,stay
+20220329,화,카카오,0,stay,stay
+20220329,화,배럴,0,stay,stay
+20220329,화,안랩,0,stay,stay
+20220329,화,현대차,-1,down,sell
+20220329,화,넷마블,-1,down,sell
+20220329,화,한국전력,-1,down,sell
 20220329,화,쌍용차,-5,down,sell

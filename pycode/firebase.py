@@ -48,7 +48,6 @@ def ranking_update():
 service ={}
 user = {}
 def checked_service_update():
-
     for i in range(len(final)):
         service[i+1] = final.service[i]
     checkedServiceUpdate = {target+'-'+target_day:{'service': service,'user': user}}
@@ -59,7 +58,6 @@ def checked_service_update():
     
 # 4:00 pm에 진행됨
 def checked_user_update():
-    
     for i in range(len(final)):
         if final.expect[i] == final.user[i]:
             user[i+1] = '⭕'
@@ -70,6 +68,43 @@ def checked_user_update():
     ref = db.reference()
     checked_ref = ref.child('checked')
     checked_ref.update(checkedUserUpdate)
+    
+def loadUserToto():
+    ref = db.reference().child('UserToTo')
+    usertoto = pd.DataFrame(columns = ['id','date','day','user_expect','user'])
+    date_day = []
+    user_choice = []
+    for key, val in ref.get().items():
+        date_day.append(key)
+        user_choice.append(val)
+
+    for i in range(len(date_day)):
+        user_answer = []
+        user_date, user_day = date_day[i].split('-')
+        user_info = {'id': 45782626, # 임의의 숫자
+                     'date': user_date,
+                     'day': user_day,
+                     'user_expect': user_choice[i][1:]}
+    
+        for j in range(len(final)):
+            if user_choice[i][1:][j]== final.change[i]:
+                user_answer.append('⭕')
+                final.user[j] = '⭕'
+            elif user_choice[i][1:][j] != final.change[i]:
+                user_answer.append('❌')
+                final.user[j] = '❌'
+            else:
+                user_answer.append('-')
+    
+        user_info['user'] = user_answer
+        usertoto = usertoto.append(user_info,ignore_index=True)
+
+    usertoto.to_csv(f'./data/users/{user_date}_user.csv', encoding = 'utf-8-sig', index = False)
+    final.to_csv(f'./data/final/{target}_final.csv', encoding = 'utf-8-sig', index = False)
+    display(final)
+    display(usertoto)
+    
+    
     
     
     

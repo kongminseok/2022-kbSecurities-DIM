@@ -66,29 +66,48 @@ def append_new_words(word) : # '메타버스', '트래블룰' 처럼 기업명�
 # 종목명 추출 함수
 
 # stock_lst = []
-def get_stock_name(date, day, keyword_lst, count) : 
+def get_stock_name(keyword_lst) : 
     stock_lst = []
+    is_keyword_lst = []
         
     for keyword in keyword_lst : 
-        if keyword in entre_lst : 
-            stock_lst.append(keyword)
-            continue
-        else : 
-            words = model.wv.most_similar(keyword, topn = 100)
-            for word in words : 
-                if word[0] in entre_lst : 
-                    stock_lst.append(word[0])
-                    break
+        try : 
+            if keyword in entre_lst : 
+                stock_lst.append(keyword)
+                is_keyword_lst.append(keyword)
+                continue
+            else : 
+                words = model.wv.most_similar(keyword, topn = 100)
+                for word in words : 
+                    if word[0] in entre_lst : 
+                        stock_lst.append(word[0])
+                        is_keyword_lst.append(keyword)
+                        break
 
-                else : 
-                    words = model.wv.most_similar(keyword, topn = 100)
-                    continue
+                    else : 
+                        words = model.wv.most_similar(keyword, topn = 100)
+                        continue
+                    
+        except KeyError : 
+            continue
+    
+    #for keyword in keyword_lst : 
+    #    if keyword in entre_lst : 
+    #        stock_lst.append(keyword)
+    #        continue
+    #    else : 
+    #        words = model.wv.most_similar(keyword, topn = 100)
+    #        for word in words : 
+    #            if word[0] in entre_lst : 
+    #                stock_lst.append(word[0])
+    #                break
+    #
+    #            else : 
+    #                words = model.wv.most_similar(keyword, topn = 100)
+    #                continue
                     
     res = pd.DataFrame()
-    res['date'] = date
-    res['day'] = day
-    res['word'] = keyword_lst
-    res['count'] = count
+    res['word'] = is_keyword_lst
     res['stock'] = stock_lst
     res.to_csv(f'./data/rank/{target}_rank.csv', encoding='utf-8-sig', index = False)
 
