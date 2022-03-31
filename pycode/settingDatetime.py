@@ -19,9 +19,9 @@ tomorrow = tomorrow_default.replace("-",'')
 # 요일
 days = ['월', '화', '수', '목', '금', '토', '일']
 
-yesterday_index = (datetime.datetime.today()- datetime.timedelta(days=1)).weekday()
+yesterday_index = (datetime.datetime.today() - datetime.timedelta(days=1)).weekday()
 today_index = (datetime.datetime.today()).weekday()
-tomorrow_index = (datetime.datetime.today()- datetime.timedelta(days=2)).weekday()
+tomorrow_index = (datetime.datetime.today() + datetime.timedelta(days=1)).weekday()
 
 # 형식 '월'
 yesterday_day = days[yesterday_index]
