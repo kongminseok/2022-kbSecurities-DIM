@@ -28,7 +28,6 @@ def get_answer():
 
     answer['change'] = changelst
     answer['service'] = ''
-    answer['user'] = '-' # defualt
     
     for i in range(len(answer)):
         if answer.expect[i]==answer.change[i]:
