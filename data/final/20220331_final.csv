@@ -1,0 +1,9 @@
+﻿date,day,word,score,expect,change,service
+20220331,목,한화,4,up,stay,❌
+20220331,목,에스엘,2,up,down,❌
+20220331,목,카카오,1,up,stay,❌
+20220331,목,엑시콘,1,up,up,⭕
+20220331,목,팬오션,0,stay,up,❌
+20220331,목,유앤아이,0,stay,up,❌
+20220331,목,신흥,0,stay,up,❌
+20220331,목,쌍용차,-1,down,stay,❌

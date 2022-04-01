@@ -107,9 +107,9 @@ def loadUserToto():
            'user_expect': user_choice[i][1:]}
     
         for j in range(len(final)):
-            if user_choice[i][1:][j]== final.change[i]:
+            if user_choice[i][1:len(final.change)+1][j]== final.change[j]:
                 user_answer_list.append('⭕')
-            elif user_choice[i][1:][j] != final.change[i]:
+            elif user_choice[i][1:len(final.change)+1][j] != final.change[j]:
                 user_answer_list.append('❌')
             else:
                 user_answer_list.append('-')
@@ -154,9 +154,9 @@ def checked_user_update():
            'user_expect': user_choice[i][1:]}
     
         for j in range(len(final)):
-            if user_choice[i][1:][j]== final.change[i]:
+            if user_choice[i][1:len(final.change)+1][j]== final.change[j]:
                 user_answer_list.append('⭕')
-            elif user_choice[i][1:][j] != final.change[i]:
+            elif user_choice[i][1:len(final.change)+1][j] != final.change[j]:
                 user_answer_list.append('❌')
             else:
                 user_answer_list.append('-')
@@ -169,11 +169,12 @@ def checked_user_update():
         service[i+1] = final.service[i]
     #checkedServiceUpdate = {target+'-'+target_day:{'service': service,'user': user}}
     
-    display(usertoto.user_expect[1])
+    #display(pd.DataFrame(usertoto.user_expect))
+    
     user_id = {}
     for i in range(len(usertoto.id)):
         user = {}
-        for j in range(10):
+        for j in range(len(final.change)):
             if final.expect[j] == usertoto.user_expect[i][j]:
                 user[j+1] = '⭕'
             else:
