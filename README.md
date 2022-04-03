@@ -1,4 +1,4 @@
-# 2022-kbSecurities-DIM
+# 2022 KB Securities Digital Idea Market
 ## Members 
 **공민석, 민복기, 이윤주**
 ## KoBERT finetuning accuracy
