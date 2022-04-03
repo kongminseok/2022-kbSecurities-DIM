@@ -1,6 +1,6 @@
 # 2022 KB Securities Digital Idea Market
 ## Members 
-**공민석, 민복기, 이윤주**
+**공민석(shirtnjean), 민복기(NIckmin96), 이윤주()**
 ## KoBERT finetuning accuracy
 ![kobert_test_acc](https://user-images.githubusercontent.com/81498680/160960601-09fed71f-21ad-40b8-a191-3cdea350bc43.png)
 ## How to Run
